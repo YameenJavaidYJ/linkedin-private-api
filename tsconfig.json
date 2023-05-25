@@ -1,0 +1,18 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es6",                          
+    "module": "commonjs",   
+    "moduleResolution": "node",
+    "typeRoots": ["node_modules/@types", "interfaces/@types"],
+    "baseUrl": "./src", 
+    "lib": ["es6"],                     
+    "allowJs": true,
+    "outDir": "build",                          
+    "rootDir": "src",
+    "strict": true,         
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  }
+}

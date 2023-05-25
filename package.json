@@ -1,0 +1,26 @@
+{
+  "name": "node-js-linkedin-api",
+  "version": "1.0.0",
+  "description": "linkedin-node-api",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./build && npx tsc --project './tsconfig.json'",
+    "dev": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "linkedin-private-api": "^1.1.2",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.6",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.3"
+  }
+}
