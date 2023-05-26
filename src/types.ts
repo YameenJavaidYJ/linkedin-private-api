@@ -44,27 +44,26 @@ export interface ProfileSearchFlags {
 
 
 export interface ExtendedProfile extends Profile{
-    
-    companys?: LinkedInProfileCompany
+    geo?: LinkedInProfileGeo[];
+    contactInfo?: LinkedInProfileIndustry[];
+    companys?: LinkedInProfileCompany[];
+    industrys?: LinkedInProfileIndustry[];
+    regions?: LinkedInProfileRegion[];
+    certifications?: LinkedInProfileCertification[];
+    courses?: LinkedInProfileCourse[];
+    educations?: LinkedInProfileEducation[];
+    employmentTypes?: LinkedInProfileEmploymentType[];
+    honors?: LinkedInProfileHonors[];
+    languages?: LinkedInProfileLangauge[];
+    organizations?: LinkedInProfileOrganization[];
+    positions?: LinkedInProfilePosition[];
+    positionGroups?: LinkedInProfilepositionGroup[];
+    projects?: LinkedInProfileProject[];
+    skills?: LinkedInProfileSkill[];
+    schools?: LinkedInProfileSchool[];
+    memberRelationships?: LinkedInProfileMemberRelationship[];
     // connections?: LinkedInProfileConnection;
-    geo?: LinkedInProfileGeo;
-    contactInfo?: LinkedInProfileIndustry;
-    industry?: LinkedInProfileIndustry;
-    region?: LinkedInProfileRegion;
-    certification?: LinkedInProfileCertification;
-    course?: LinkedInProfileCourse;
-    education?: LinkedInProfileEducation;
-    employmentType?: LinkedInProfileEmploymentType;
-    honors?: LinkedInProfileHonors;
-    language?: LinkedInProfileLangauge;
-    organization?: LinkedInProfileOrganization;
-    position?: LinkedInProfilePosition;
-    positionGroup?: LinkedInProfilepositionGroup;
-    project?: LinkedInProfileProject;
-    skill?: LinkedInProfileSkill;
-    school?: LinkedInProfileSchool;
     // connection?: LinkedInProfileConnection;
-    memberRelationship?: LinkedInProfileMemberRelationship;
 }
 
 export const PROFILE_TYPE = "com.linkedin.voyager.dash.identity.profile.Profile";

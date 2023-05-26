@@ -53,107 +53,106 @@ export class ExtendedProfileRepository{
         this.client = client;
     }
 
-    async getProfile({ publicIdentifier, flags = {} }: { publicIdentifier: string, flags: ProfileSearchFlags }) : Promise<Record<string, any[]>>
+    async getProfile({ publicIdentifier, flags = {} }: { publicIdentifier: string, flags: ProfileSearchFlags }) : Promise <ExtendedProfile>
     {
-        const response = await this.client.request.profile.getProfile({ publicIdentifier });
-        const results = response.included || [];
+        // the purpose of this is to fetch profile only
+        const profile = await this.client.profile.getProfile({ publicIdentifier });
+        const profileResults : ExtendedProfile = profile;
         
-        const aggregateResults = results?.reduce(
-            (acc: Record<string, any[]>, item: any) => {
-                if (item.$type == PROFILE_TYPE) {
-                    acc.profile.push(item as LinkedInProfile);
-                } 
-                else if (item.$type == GEO_TYPE && flags.geo) {
-                    acc.geo.push(item as LinkedInProfileGeo);
-                }
-                else if (item.$type == INDUSTRY_TYPE && flags.industry) {
-                    acc.industry.push(item as LinkedInProfileIndustry);
-                }
-                else if (item.$type == REGION_TYPE && flags.region) {
-                    acc.region.push(item as LinkedInProfileRegion);
-                }
-                else if (item.$type == CERTIFICATION_TYPE && flags.certification) {
-                    acc.certification.push(item as LinkedInProfileCertification);
-                }
-                else if (item.$type == COURSE_TYPE && flags.course) {
-                    acc.course.push(item as LinkedInProfileCourse);
-                }
-                else if (item.$type == EDUCATION_TYPE && flags.education) {
-                    acc.education.push(item as LinkedInProfileEducation);
-                }
-                else if (item.$type == EMPLOYMENT_TYPE && flags.employmentType) {
-                    acc.employmentType.push(item as LinkedInProfileEmploymentType);
-                }
-                else if (item.$type == HONOR_TYPE && flags.honors) {
-                    acc.honor.push(item as LinkedInProfileHonors);
-                }
-                else if (item.$type == LANGUAGE_TYPE && flags.language) {
-                    acc.language.push(item as LinkedInProfileLangauge);
-                }
-                else if (item.$type == ORGANIZATION_TYPE && flags.organization) {
-                    acc.organization.push(item as LinkedInProfileOrganization);
-                }
-                else if (item.$type == POSITION_TYPE && flags.position) {
-                    acc.position.push(item as LinkedInProfilePosition);
-                }
-                else if (item.$type == POSITION_GROUP_TYPE && flags.positionGroup) {
-                    acc.positionGroup.push(item as LinkedInProfilepositionGroup);
-                }
-                else if (item.$type == PROJECT_TYPE && flags.project) {
-                    acc.project.push(item as LinkedInProfileProject);
-                }
-                else if (item.$type == SKILL_TYPE && flags.skill) {
-                    acc.skill.push(item as LinkedInProfileSkill);
-                }
-                else if (item.$type == COMPANY_TYPE && flags.company) {
-                    acc.company.push(item as LinkedInProfileCompany);
-                }
-                else if (item.$type == SCHOOL_TYPE && flags.school) {
-                    acc.school.push(item as LinkedInProfileSchool);
-                }
-                // else if (item.$type == CONNECTION_TYPE && flags.connection) {
-                //     acc.connection.push(item);
-                // }
-                else if (item.$type == MEMBER_RELATIONSHIP_TYPE && flags.memberRelationship) {
-                    acc.memberRelationship.push(item as LinkedInProfileMemberRelationship);
-                }
-                return acc;
-            },
-            { 
-                profile: [],
-                geo: [], 
-                industry: [], 
-                region: [],
-                certification: [],
-                course: [],
-                education: [],
-                employmentType: [],
-                honor: [],
-                language: [],
-                organization: [],
-                position: [],
-                positionGroup: [],
-                project: [],
-                skill: [],
-                company: [],
-                school: [],
-                connection: [],
-                memberRelationship: [],
-            }
-        );
+        // the purpose of this is to get the other attributes (data) education / skills etc that 
+        // getProfile omitted
+        const completeProfile = await this.client.request.profile.getProfile({ publicIdentifier });
+        const results = completeProfile.included || [];
         
-        return aggregateResults;
+        // need to cast all data filtered to unknown first because previous type of results is
+        // (LinkedInProfile | LinkedInCompany)[] which is (type GetProfileResponse)
+        // export type GetProfileResponse = LinkedInCollectionResponse<ProfileUrn, LinkedInProfile | LinkedInCompany>; 
+        
+        if (flags.geo){
+            const geo = results.filter(r => r.$type as string === GEO_TYPE) as unknown as LinkedInProfileGeo[];
+            profileResults.geo = geo;
+        }
+        if (flags.industry){
+            const industrys = results.filter(r => r.$type as string === INDUSTRY_TYPE) as unknown as LinkedInProfileIndustry[];
+            profileResults.industrys = industrys;
+        }
+
+        if (flags.region){
+            const regions = results.filter(r => r.$type as string === REGION_TYPE) as unknown as LinkedInProfileRegion[];
+            profileResults.regions = regions;
+        }
+
+        if (flags.certification){
+            const certifications = results.filter(r => r.$type as string === CERTIFICATION_TYPE) as unknown as LinkedInProfileCertification[];
+            profileResults.certifications = certifications;
+        }
+
+        if (flags.course){
+            const courses = results.filter(r => r.$type as string === COURSE_TYPE) as unknown as LinkedInProfileCourse[];
+            profileResults.courses = courses;
+        }
+
+        if (flags.education){
+            const educations = results.filter(r => r.$type as string === EDUCATION_TYPE) as unknown as LinkedInProfileEducation[];
+            profileResults.educations = educations;
+        }
+
+        if (flags.employmentType){
+            const employmentTypes = results.filter(r => r.$type as string === EMPLOYMENT_TYPE) as unknown as LinkedInProfileEmploymentType[];
+            profileResults.employmentTypes = employmentTypes;
+        }
+
+        if (flags.honors){
+            const honors = results.filter(r => r.$type as string === HONOR_TYPE) as unknown as LinkedInProfileHonors[];
+            profileResults.honors = honors;
+        }
+
+        if (flags.language){
+            const languages = results.filter(r => r.$type as string === LANGUAGE_TYPE) as unknown as LinkedInProfileLangauge[];
+            profileResults.languages = languages;
+        }
+
+        if (flags.organization){
+            const organizations = results.filter(r => r.$type as string === ORGANIZATION_TYPE) as unknown as LinkedInProfileOrganization[];
+            profileResults.organizations = organizations;
+        }
+
+        if (flags.position){
+            const positions = results.filter(r => r.$type as string === POSITION_TYPE) as unknown as LinkedInProfilePosition[];
+            profileResults.positions = positions;
+        }
+
+        if (flags.positionGroup){
+            const positionGroups = results.filter(r => r.$type as string === POSITION_GROUP_TYPE) as unknown as LinkedInProfilepositionGroup[];
+            profileResults.positionGroups = positionGroups;
+        }
+
+        if (flags.project){
+            const projects = results.filter(r => r.$type as string === PROJECT_TYPE) as unknown as LinkedInProfile[];
+            profileResults.projects = projects;
+        }
+
+        if (flags.skill){
+            const skills = results.filter(r => r.$type as string === SKILL_TYPE) as unknown as LinkedInProfileSkill[];
+            profileResults.skills = skills;
+        }
+
+        if (flags.company){
+            const companys = results.filter(r => r.$type as string === COMPANY_TYPE) as unknown as LinkedInProfileCompany[];
+            profileResults.companys = companys;
+        }
+
+        if (flags.school){
+            const schools = results.filter(r => r.$type as string === SCHOOL_TYPE) as unknown as LinkedInProfileSchool[];
+            profileResults.schools = schools;
+        }
+
+        if (flags.memberRelationship){
+            const memberRelationship = results.filter(r => r.$type as string === MEMBER_RELATIONSHIP_TYPE) as unknown as LinkedInProfileMemberRelationship[];
+            profileResults.memberRelationships = memberRelationship;
+        }
+        
+        return profileResults;
     }
 }
 
-// const profileConnectionsScroller = await this.client.search.searchConnectionsOf({ profileId: entityUrn });
-// const profileConnections = await profileConnectionsScroller.scrollNext();
-
-// const result: any = await this.client.request.get(
-//     `https://www.linkedin.com/voyager/api/identity/profiles/${publicIdentifier}/profileContactInfo`
-// );
-
-// const uniqueTypes: Set<string> = new Set(results.map((r : { $type: string; }) => r.$type));
-// const result: any = await client.request.get(
-//   `https://www.linkedin.com/voyager/api/identity/profiles/muhammad-zakria-jan-8339ab105/profileView`
-// );
