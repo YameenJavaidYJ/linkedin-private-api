@@ -1,8 +1,8 @@
 export * from "./certification";
 export * from "./company";
 // export * from "./connection";
-// export * from "./connections";
 // export * from "./contactInfo";
+export * from "./connections";
 export * from "./course";
 export * from "./education";
 export * from "./employmentType";

@@ -43,6 +43,7 @@ import {
     LinkedInProfileSchool,
     LinkedInProfileSkill,
     LinkedInProfilepositionGroup,
+    LinkedInProfileConnections
 } from "./subTypes";
 require('dotenv').config();
 
@@ -128,7 +129,7 @@ export class ExtendedProfileRepository{
         }
 
         if (flags.project){
-            const projects = results.filter(r => r.$type as string === PROJECT_TYPE) as unknown as LinkedInProfile[];
+            const projects = results.filter(r => r.$type as string === PROJECT_TYPE) as unknown as LinkedInProfileProject[];
             profileResults.projects = projects;
         }
 
@@ -150,6 +151,15 @@ export class ExtendedProfileRepository{
         if (flags.memberRelationship){
             const memberRelationship = results.filter(r => r.$type as string === MEMBER_RELATIONSHIP_TYPE) as unknown as LinkedInProfileMemberRelationship[];
             profileResults.memberRelationships = memberRelationship;
+        }
+
+        if (flags.connections){
+            const id = profile.entityUrn.split(":").pop() as string;
+            const profileConnectionsScroller = await this.client.search.searchConnectionsOf({ profileId: id });
+            const profileConnections = await profileConnectionsScroller.scrollNext();
+            profileResults.connections = profileConnections[0] as unknown as LinkedInProfileConnections[];
+            
+            
         }
         
         return profileResults;

@@ -17,6 +17,7 @@ import {
     LinkedInProfileSchool,
     LinkedInProfileSkill,
     LinkedInProfilepositionGroup,
+    LinkedInProfileConnections
 } from "./subTypes";
 
 export interface ProfileSearchFlags {
@@ -62,7 +63,7 @@ export interface ExtendedProfile extends Profile{
     skills?: LinkedInProfileSkill[];
     schools?: LinkedInProfileSchool[];
     memberRelationships?: LinkedInProfileMemberRelationship[];
-    // connections?: LinkedInProfileConnection;
+    connections?: LinkedInProfileConnection[];
     // connection?: LinkedInProfileConnection;
 }
 

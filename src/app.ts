@@ -32,26 +32,27 @@ const password = process.env.PASSWORD as string;
     
     
     const pFlags : ProfileSearchFlags = {
-      connections: false,
+      connections: true,
       contactInfo: false,
-      geo: true,
-      industry: true,
-      region: true,
-      certification: true,
-      course: true,
-      education: true,
-      employmentType: true,
-      honors: true,
-      language: true,
-      organization: true,
+      geo: false,
+      industry: false,
+      region: false,
+      certification: false,
+      course: false,
+      education: false,
+      employmentType: false,
+      honors: false,
+      language: false,
+      organization: false,
       position: true,
-      positionGroup: true,
-      project: true,
-      skill: true,
-      company: true,
-      school: true,
-      connection: true,
-      memberRelationship: true
+      positionGroup: false,
+      project: false,
+      skill: false,
+      company: false,
+      school: false,
+      connection: false,
+      memberRelationship: false,
+
     };
     
 

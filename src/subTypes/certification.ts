@@ -17,7 +17,7 @@ export interface LinkedInProfileCertification {
 }
 
 interface MultiLocaleName {
-    en_US: string;
+  en_US: string;
 }
 
 interface Date {
