@@ -33,9 +33,9 @@ const password = process.env.PASSWORD as string;
     
     
     const pFlags : ProfileSearchFlags = {
-      connections: true,
+      // connections: true,
       geo: true,
-      contactInfo: true,
+      // contactInfo: true,
       industry: true,
       region: true,
       certification: true,
@@ -51,7 +51,7 @@ const password = process.env.PASSWORD as string;
       skill: true,
       company: true,
       school: true,
-      connection: true,
+      // connection: true,
       memberRelationship: true
     };
     
@@ -60,7 +60,7 @@ const password = process.env.PASSWORD as string;
       publicIdentifier:  searchedProfileHit.profile.publicIdentifier,
       flags: pFlags 
     });
-    console.log(profile);
+    console.log(typeof profile.organization);
 
     // const id : string = searchedProfileHit.profile.entityUrn.split(":").pop() as string;
     // const profileConnections = await profile_repo.getProfileConnections(id);
